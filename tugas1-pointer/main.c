@@ -15,6 +15,7 @@ struct Bank {
 
 void main() {
   struct Bank Rekening1;
+  struct Bank *pointerRekening1 = &Rekening1;
   
   /* Rekening Andi */
   strcpy(Rekening1.nama, "Andi");
@@ -34,19 +35,22 @@ void main() {
     scanf("%d", &pilihan);
     switch (pilihan) {
       case 1:
-        tampilRekening( Rekening1 );
+        tampilRekening( &Rekening1 );
         break;
       case 2:
-        tampilSaldo( Rekening1 );
+        tampilSaldo( &Rekening1 );
         break;
       case 3:
         transfer( &Rekening1 );
+        tampilSaldo( &Rekening1 );
         break;
       case 4:
         deposit( &Rekening1 );
+        tampilSaldo( &Rekening1 );
         break;
       case 5:
         tarikDana( &Rekening1 );
+        tampilSaldo( &Rekening1 );
         break;
       case 6:
         printf("Terima kasih telah menggunakan layanan kami\n");
@@ -56,51 +60,51 @@ void main() {
   } while (pilihan != 6);
 }
 
-void tampilRekening( struct Bank Rekening1) {
+void tampilRekening(struct Bank *pointerRekening1) {
   printf("\n *** Data Rekening ***\n");
-  printf("\nNama: %s \n", Rekening1.nama);
-  printf("No. Rekening: %d \n", Rekening1.no_rek);
+  printf("Nama: %s \n", pointerRekening1->nama);
+  printf("No Rekening: %d \n", pointerRekening1->no_rek);
 }
 
-void tampilSaldo( struct Bank Rekening1) {
+void tampilSaldo(struct Bank *pointerRekening1) {
   printf("\n *** Saldo Rekening Anda ***\n");
-  printf("Saldo: %.2f \n", Rekening1.saldo);
+  printf("Saldo: %.2f \n", pointerRekening1->saldo);
 }
 
-void transfer( struct Bank Rekening1) {
+void transfer(struct Bank *pointerRekening1) {
   int no_rek;
   float jumlah;
   printf("\n *** Transfer Dana ***\n");
-  printf("Masukkan no. rekening tujuan: ");
+  printf("Masukkan No Rekening: ");
   scanf("%d", &no_rek);
-  printf("Masukkan jumlah transfer: ");
+  printf("Masukkan Jumlah Dana: ");
   scanf("%f", &jumlah);
-  if (jumlah > Rekening1.saldo) {
-    printf("Saldo tidak mencukupi\n");
+  if (jumlah > pointerRekening1->saldo) {
+    printf("Saldo Anda tidak mencukupi\n");
   } else {
-    Rekening1.saldo -= jumlah;
+    pointerRekening1->saldo -= jumlah;
     printf("Transfer berhasil\n");
   }
 }
 
-void deposit( struct Bank Rekening1) {
+void deposit(struct Bank *pointerRekening1) {
   float jumlah;
   printf("\n *** Deposit ***\n");
   printf("Masukkan jumlah deposit: ");
   scanf("%f", &jumlah);
-  Rekening1.saldo += jumlah;
+  pointerRekening1->saldo += jumlah;
   printf("Deposit berhasil\n");
 }
 
-void tarikDana( struct Bank Rekening1) {
+void tarikDana(struct Bank *pointerRekening1) {
   float jumlah;
   printf("\n *** Tarik Dana ***\n");
   printf("Masukkan jumlah tarik dana: ");
   scanf("%f", &jumlah);
-  if (jumlah > Rekening1.saldo) {
+  if (jumlah > pointerRekening1->saldo) {
     printf("Saldo tidak mencukupi\n");
   } else {
-    Rekening1.saldo -= jumlah;
+    pointerRekening1->saldo -= jumlah;
     printf("Tarik dana berhasil\n");
   }
 }
